@@ -12,6 +12,7 @@
 static constexpr auto WORK_MINS = 25;
 static constexpr auto REST_MINS = 5;
 static constexpr auto LONG_REST_MINS = 30;
+static constexpr auto MESSAGE_TIMEOUT_HINT = 5000;
 
 class Mode
 {
@@ -199,7 +200,10 @@ void MainWindow::onTimerTimeout()
 
             m_mode = m_cycle[m_cycleIndex];
             m_mode->reset();
-            m_trayIcon->showMessage("Black Tomato", m_mode->message, QSystemTrayIcon::Information, 2000);
+            m_trayIcon->showMessage("Black Tomato",
+                                    m_mode->message,
+                                    QSystemTrayIcon::Information,
+                                    MESSAGE_TIMEOUT_HINT);
         }
         else
         {
