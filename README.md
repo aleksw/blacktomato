@@ -1,7 +1,8 @@
 Black Tomato
 ============
 
-No-frills [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Technique) timer for the system tray. Requires Qt5.
+No-frills [Pomodoro](https://en.wikipedia.org/wiki/Pomodoro_Technique) timer for the system tray. Displays notifications between count modes.
+Requires Qt5.
 
 ![](images/screenshots/snap0.png)
 ![](images/screenshots/snap1.png)
