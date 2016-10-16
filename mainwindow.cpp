@@ -111,7 +111,7 @@ void MainWindow::updateTrayIcon()
     static QString lastResource;
     static int lastMin;
 
-    if(m_timer->isActive() > 0)
+    if(m_timer->isActive())
     {
         int min = m_mode->remainTime().minute();
         if(min == 0)
