@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="tomato-green">tomato-green.png</file>
+        <file alias="tomato-blue">tomato-blue.png</file>
+        <file alias="tomato-grey">tomato-grey.png</file>
+        <file alias="dejavu-font">DejaVuSansMono-Bold.ttf</file>
+        <file alias="tomato-red">tomato-red.png</file>
+    </qresource>
+</RCC>
