@@ -15,9 +15,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+           mainwindow.cpp \
+           runguard.cc
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+            runguard.h
 
 FORMS    += mainwindow.ui
 
