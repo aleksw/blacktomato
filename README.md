@@ -21,7 +21,7 @@ make
 ```
 Credits
 -------
-**Code:**  Aleks Wojcik
+**Code:**  Aleks Wojcik (runguard.h from StackOverflow)
 
 **Icons:** from [iconsdb.com](http://www.iconsdb.com/)
 
