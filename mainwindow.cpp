@@ -208,12 +208,17 @@ void MainWindow::updateContextMenu()
     }
     else
     {
+        if(m_paused)
+        {
+            QString timeLabel = QString("%1 (paused)").arg(m_mode->title);
+            ui->actionTime->setText(timeLabel);
+        }
+
         ui->menuStart->menuAction()->setVisible(!m_paused);
         ui->actionStop->setVisible(m_paused);
-        ui->actionTime->setVisible(false);
+        ui->actionTime->setVisible(m_paused);
         ui->actionPause->setVisible(false);
         ui->actionResume->setVisible(m_paused);
-        ui->actionResume->setText(QString("Resume (%1)").arg(m_mode->title));
     }
 }
 
@@ -267,7 +272,10 @@ void MainWindow::startLongRest()
 
 void MainWindow::start(bool resume)
 {
-    m_mode->reset();
+    if(!resume)
+    {
+        m_mode->reset();
+    }
     m_timer->stop();
     m_timer->start(1000);
     m_paused = !resume;
