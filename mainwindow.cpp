@@ -145,12 +145,11 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
         painter.setPen(pen);
         QPainterPath pp;
 
-        QString minString = QString("%1").arg(text);
-        pp.addText(10 + offset,45,font,minString);
+        pp.addText(10 + offset,45,font,text);
         painter.drawPath(pp);
         pen.setColor(QColor(255,255,255));
         painter.setPen(pen);
-        painter.drawText(10 + offset,45,minString);
+        painter.drawText(10 + offset,45,text);
 
         m_trayIcon->setIcon(QIcon(pm));
     }
@@ -164,14 +163,13 @@ void MainWindow::updateTrayIcon()
     if(m_timer->isActive())
     {
 
-        int min = m_mode->remainTime().minute();
-        if(min == 0)
+        int remTime = m_mode->remainTime().minute();
+        if(remTime == 0)
         {
-            min = 1;
-            min = m_mode->remainTime().second();
+            remTime = m_mode->remainTime().second();
         }
         resource = m_mode->iconResource;
-        text = QString("%1").arg(min);
+        text = QString("%1").arg(remTime);
     }
     else
     {
@@ -211,7 +209,7 @@ void MainWindow::updateContextMenu()
     else
     {
         ui->menuStart->menuAction()->setVisible(!m_paused);
-        ui->actionStop->setVisible(false);
+        ui->actionStop->setVisible(m_paused);
         ui->actionTime->setVisible(false);
         ui->actionPause->setVisible(false);
         ui->actionResume->setVisible(m_paused);
