@@ -39,6 +39,8 @@
     <addaction name="actionTime"/>
     <addaction name="menuStart"/>
     <addaction name="actionStop"/>
+    <addaction name="actionPause"/>
+    <addaction name="actionResume"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -46,6 +48,17 @@
    <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionTime">
    <property name="text">
     <string>23:33</string>
@@ -85,6 +98,19 @@
   <action name="actionLong_Rest">
    <property name="text">
     <string>Long Rest</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionResume">
+   <property name="text">
+    <string>Resume</string>
    </property>
   </action>
  </widget>
@@ -171,6 +197,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPause</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>pause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionResume</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resume()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>quit()</slot>
@@ -178,5 +236,7 @@
   <slot>startRest()</slot>
   <slot>startLongRest()</slot>
   <slot>stop()</slot>
+  <slot>pause()</slot>
+  <slot>resume()</slot>
  </slots>
 </ui>

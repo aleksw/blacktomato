@@ -70,7 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     m_trayIcon(new QSystemTrayIcon(this)),
     m_timer(new QTimer(this)),
-    m_mode(&Mode::work())
+    m_mode(&Mode::work()),
+    m_paused(false)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(":/tomato-grey"));
@@ -106,27 +107,30 @@ void MainWindow::closeEvent(QCloseEvent* event)
     event->ignore();
 }
 
-void MainWindow::updateTrayIcon()
+void MainWindow::drawIcon(const QString &resource, const QString &text)
 {
     static QString lastResource;
-    static int lastMin;
+    static QString lastText;
 
-    if(m_timer->isActive())
+    if(text == lastText && resource == lastResource) { return; }
+    lastText = text;
+    lastResource = resource;
+
+    if(text.length() > 2)
     {
-        int min = m_mode->remainTime().minute();
-        if(min == 0)
-        {
-            min = 1;
-            min = m_mode->remainTime().second();
-        }
-        int offset = (min <= 9) ? 11 : 0;
+        qDebug() << "icon text too long or empty";
+        return;
+    }
 
-        if(min == lastMin && m_mode->iconResource == lastResource) { return; }
+    int offset = text.length() == 1 ? 11 : 0;
 
-        lastResource = m_mode->iconResource;
-        lastMin = min;
-
-        QPixmap pm = QPixmap::fromImage(QImage(m_mode->iconResource));
+    if(text.isEmpty())
+    {
+        m_trayIcon->setIcon(QIcon(resource));
+    }
+    else
+    {
+        QPixmap pm = QPixmap::fromImage(QImage(resource));
         QPainter painter(&pm);
 
         QFont font = painter.font();
@@ -141,7 +145,7 @@ void MainWindow::updateTrayIcon()
         painter.setPen(pen);
         QPainterPath pp;
 
-        QString minString = QString("%1").arg(min);
+        QString minString = QString("%1").arg(text);
         pp.addText(10 + offset,45,font,minString);
         painter.drawPath(pp);
         pen.setColor(QColor(255,255,255));
@@ -150,10 +154,32 @@ void MainWindow::updateTrayIcon()
 
         m_trayIcon->setIcon(QIcon(pm));
     }
+}
+
+void MainWindow::updateTrayIcon()
+{
+    QString resource;
+    QString text;
+
+    if(m_timer->isActive())
+    {
+
+        int min = m_mode->remainTime().minute();
+        if(min == 0)
+        {
+            min = 1;
+            min = m_mode->remainTime().second();
+        }
+        resource = m_mode->iconResource;
+        text = QString("%1").arg(min);
+    }
     else
     {
-        m_trayIcon->setIcon(QIcon(":/tomato-grey"));
+        resource = ":/tomato-grey";
+        text = m_paused ? "P": "";
     }
+
+    drawIcon(resource, text);
 }
 
 void MainWindow::quit()
@@ -175,6 +201,8 @@ void MainWindow::updateContextMenu()
         ui->actionStop->setVisible(true);
         ui->actionTime->setVisible(true);
         ui->actionTime->setEnabled(false);
+        ui->actionPause->setVisible(true);
+        ui->actionResume->setVisible(false);
 
         QString timeLabel = QString("%1 (%2:%03)").arg(m_mode->title).arg(m_mode->remainTime().minute(),2,10,QChar('0'))\
                                              .arg(m_mode->remainTime().second(),2,10,QChar('0'));
@@ -182,9 +210,12 @@ void MainWindow::updateContextMenu()
     }
     else
     {
-        ui->menuStart->menuAction()->setVisible(true);
+        ui->menuStart->menuAction()->setVisible(!m_paused);
         ui->actionStop->setVisible(false);
         ui->actionTime->setVisible(false);
+        ui->actionPause->setVisible(false);
+        ui->actionResume->setVisible(m_paused);
+        ui->actionResume->setText(QString("Resume (%1)").arg(m_mode->title));
     }
 }
 
@@ -236,16 +267,28 @@ void MainWindow::startLongRest()
     start();
 }
 
-void MainWindow::start()
+void MainWindow::start(bool resume)
 {
     m_mode->reset();
     m_timer->stop();
     m_timer->start(1000);
+    m_paused = !resume;
     update();
 }
 
-void MainWindow::stop()
+void MainWindow::stop(bool pause)
 {
     m_timer->stop();
+    m_paused = pause;
     update();
+}
+
+void MainWindow::pause()
+{
+    stop(true);
+}
+
+void MainWindow::resume()
+{
+    start(true);
 }

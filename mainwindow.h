@@ -20,24 +20,30 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
 protected:
     void closeEvent(QCloseEvent*);
 
-private slots:
-    void updateTrayIcon();
-    void updateContextMenu();
+    void drawIcon(const QString& resource, const QString& text);
 
+private slots:
     void onTimerTimeout();
 
     void startWork();
     void startRest();
     void startLongRest();
 
-    void start();
-    void stop();
+    void start(bool resume = false);
+    void stop(bool pause = false);
+
+    void resume();
+    void pause();
+
     void quit();
 
     void update();
+    void updateTrayIcon();
+    void updateContextMenu();
 
 private:
     Ui::MainWindow *ui{nullptr};
@@ -48,6 +54,7 @@ private:
     QVector<Mode*> m_cycle;
     int m_cycleIndex{0};
     QString m_trayFontFamily;
+    bool m_paused{false};
 };
 
 #endif // MAINWINDOW_H
