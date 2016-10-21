@@ -38,9 +38,9 @@
     <addaction name="separator"/>
     <addaction name="actionTime"/>
     <addaction name="menuStart"/>
-    <addaction name="actionStop"/>
     <addaction name="actionPause"/>
     <addaction name="actionResume"/>
+    <addaction name="actionStop"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
