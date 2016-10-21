@@ -19,6 +19,8 @@ cd build
 qmake ..
 make
 ```
+*Compiled and tested on Linux (KDE) and Windows 7*
+
 Credits
 -------
 **Code:**  Aleks Wojcik (runguard.h from StackOverflow)
