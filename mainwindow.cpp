@@ -135,7 +135,7 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
 
         QFont font = painter.font();
         font.setBold(true);
-        font.setPixelSize(38);
+        font.setPixelSize(42);
         font.setFixedPitch(true);
         font.setFamily(m_trayFontFamily);
 
@@ -145,11 +145,11 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
         painter.setPen(pen);
         QPainterPath pp;
 
-        pp.addText(10 + offset,45,font,text);
+        pp.addText(8 + offset,45,font,text);
         painter.drawPath(pp);
         pen.setColor(QColor(255,255,255));
         painter.setPen(pen);
-        painter.drawText(10 + offset,45,text);
+        painter.drawText(8 + offset,45,text);
 
         m_trayIcon->setIcon(QIcon(pm));
     }
