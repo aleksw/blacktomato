@@ -224,8 +224,7 @@ void MainWindow::updateContextMenu()
 
 void MainWindow::onTimerTimeout()
 {
-    m_mode->elapsedSeconds++;
-    if(m_mode->elapsedSeconds >= m_mode->timeoutSeconds)
+    if(m_mode->elapsedSeconds++ >= m_mode->timeoutSeconds)
     {
         if(m_cycleIndex != -1){
             if(++m_cycleIndex >= m_cycle.count()) {
