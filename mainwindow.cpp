@@ -123,6 +123,7 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
     }
 
     int offset = text.length() == 1 ? 10 : 0;
+    int offsety = offset ? 6 : 0;
     int pointOffset = offset ? 8 : 0;
 
     if(text.isEmpty())
@@ -146,11 +147,11 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
         painter.setPen(pen);
         QPainterPath pp;
 
-        pp.addText(7 + offset,47,font,text);
+        pp.addText(7 + offset,47 + offsety,font,text);
         painter.drawPath(pp);
         pen.setColor(QColor(255,255,255));
         painter.setPen(pen);
-        painter.drawText(7 + offset,47,text);
+        painter.drawText(7 + offset,47 + offsety,text);
 
         m_trayIcon->setIcon(QIcon(pm));
     }
