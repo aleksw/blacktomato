@@ -122,7 +122,8 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
         return;
     }
 
-    int offset = text.length() == 1 ? 11 : 0;
+    int offset = text.length() == 1 ? 10 : 0;
+    int pointOffset = offset ? 8 : 0;
 
     if(text.isEmpty())
     {
@@ -135,21 +136,21 @@ void MainWindow::drawIcon(const QString &resource, const QString &text)
 
         QFont font = painter.font();
         font.setBold(true);
-        font.setPixelSize(42);
+        font.setPixelSize(44+pointOffset);
         font.setFixedPitch(true);
         font.setFamily(m_trayFontFamily);
 
         QPen pen(QColor(70,70,70));
-        pen.setWidth(6);
+        pen.setWidth(9);
         painter.setFont(font);
         painter.setPen(pen);
         QPainterPath pp;
 
-        pp.addText(8 + offset,45,font,text);
+        pp.addText(7 + offset,47,font,text);
         painter.drawPath(pp);
         pen.setColor(QColor(255,255,255));
         painter.setPen(pen);
-        painter.drawText(8 + offset,45,text);
+        painter.drawText(7 + offset,47,text);
 
         m_trayIcon->setIcon(QIcon(pm));
     }
@@ -170,6 +171,10 @@ void MainWindow::updateTrayIcon()
         }
         resource = m_mode->iconResource;
         text = QString("%1").arg(remTime);
+
+        QString timeLabel = QString("%1 (%2:%03)").arg(m_mode->title).arg(m_mode->remainTime().minute(),2,10,QChar('0'))\
+                                             .arg(m_mode->remainTime().second(),2,10,QChar('0'));
+        m_trayIcon->setToolTip(timeLabel);
     }
     else
     {
